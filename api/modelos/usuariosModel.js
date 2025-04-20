@@ -8,7 +8,8 @@ var usuariosSchema = new Schema({
     apellido:String,
     password:String,
     estado:String,
-    codigo:String
+    codigo:String,
+    perfil:String
 })
 
 const Mymodel = mongoose.model("usuarios", usuariosSchema)
@@ -23,6 +24,8 @@ usuariosModel.Registrar = function(post, responder){
     instancia.password = post.password
     instancia.estado = post.estado
     instancia.codigo = post.codigo
+    instancia.perfil = 'Cliente'
+
 
     instancia.save().then((respuesta) => {
         return responder({state:true})
@@ -48,7 +51,9 @@ usuariosModel.Actualizar = function(post, responder){
 
     Mymodel.updateOne({email:post.email},{
         nombre: post.nombre,
-        apellido: post.apellido
+        apellido: post.apellido,
+        perfil: post.perfil,
+        estado:post.estado
     }).then((respuesta) => {
         return responder({state:true})
     }).catch((error) => {
@@ -88,7 +93,7 @@ usuariosModel.Listar = function(post, responder){
 }
 
 usuariosModel.Login = function(post, responder){
-    Mymodel.find({email:post.email,password:post.password},{nombre:1,apellido:1,estado:1}).then((respuesta) => {
+    Mymodel.find({email:post.email,password:post.password},{_id:1,nombre:1,apellido:1,estado:1, perfil:1}).then((respuesta) => {
         return responder(respuesta)
     }).catch((error) => {
         console.log(error)

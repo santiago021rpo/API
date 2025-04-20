@@ -93,12 +93,12 @@ usuariosController.Registrar = function(request, response){
         </ul>
 
         <!-- Botón de activación -->
-        <a href="http://localhost:3000/usuarios/activar/${post.email}/${post.codigo}" <button style="width: 100%; padding: 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; font-size: 16px;">
+        <a href="http://localhost:4200/activar/${post.email}/${post.codigo}" <button style="width: 100%; padding: 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; font-size: 16px;">
             Activar cuenta </a>
         </button>
 
         <div style="margin-top: 15px; font-size: 14px; color: #777;">
-            <p>¿Ya activaste tu cuenta? <a href="http://localhost:3000/usuarios/activar/${post.email}/${post.codigo}" style="color: #4CAF50; text-decoration: none;">Haz clic aquí para activar de nuevo</a></p>
+            <p>¿Ya activaste tu cuenta? <a href="http://localhost:4200/activar/${post.email}/${post.codigo}" style="color: #4CAF50; text-decoration: none;">Haz clic aquí para activar de nuevo</a></p>
         </div>
     </div>
 
@@ -163,6 +163,11 @@ usuariosController.Login = function(request, response){
                     response.json({state:false,mensaje:"Por favor activar la cuenta con el codigo de su correo"})
                 }
                 else{
+                    
+                    request.session.nombre = respuesta[0].nombre + " " + respuesta[0].apellido
+                    request.session._id = respuesta[0]._id
+                    request.session.perfil = respuesta[0].perfil
+
                     response.json({state:true,mensaje:"Bienvenido: " + respuesta[0].nombre + " " + respuesta[0].apellido})
                 }
             } 
@@ -177,7 +182,9 @@ usuariosController.Actualizar = function(request, response){
     var post = {
         email:request.body.email,
         nombre:request.body.nombre,
+        perfil:request.body.perfil,
         apellido:request.body.apellido,
+        estado:request.body.estado,
 
     }
 
@@ -191,11 +198,20 @@ usuariosController.Actualizar = function(request, response){
         return false
     }
 
+    if(post.perfil == "" || post.perfil == undefined || post.perfil == null){
+        response.json({mensaje:"el campo perfil es obligatorio", state: false})
+        return false
+    }
+
     if(post.apellido == "" || post.apellido == undefined || post.apellido == null){
         response.json({mensaje:"el campo apellido es obligatorio", state: false})
         return false
     }
 
+    if(post.estado == "" || post.estado == undefined || post.estado == null){
+        response.json({mensaje:"el campo apellido es obligatorio", state: false})
+        return false
+    }
 
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if(regex.test(post.email) == false){
@@ -310,8 +326,8 @@ usuariosController.ListarEmail = function(request, response){
 usuariosController.Activar = function(request, response){
 
     var post = {
-        email:request.params.email,
-        codigo:request.params.codigo,
+        email:request.body.email,
+        codigo:request.body.codigo,
     }
 
     if(post.email == "" || post.email == undefined || post.email == null){
@@ -329,7 +345,7 @@ usuariosController.Activar = function(request, response){
             response.json({state:false, mensaje:"No se pudo activar la cuenta"})
         }
         else{
-            response.json({state:false, mensaje:"Cuenta activada correctamente, dirigase al Login"})
+            response.json({state:true, mensaje:"Cuenta activada correctamente, dirigase al Login"})
         }
     })
 
