@@ -93,12 +93,12 @@ usuariosController.Registrar = function(request, response){
         </ul>
 
         <!-- Botón de activación -->
-        <a href="http://localhost:4200/activar/${post.email}/${post.codigo}" <button style="width: 100%; padding: 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; font-size: 16px;">
+        <a href=""+ config.urlreal +"/activar/${post.email}/${post.codigo}" <button style="width: 100%; padding: 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; font-size: 16px;">
             Activar cuenta </a>
         </button>
 
         <div style="margin-top: 15px; font-size: 14px; color: #777;">
-            <p>¿Ya activaste tu cuenta? <a href="http://localhost:4200/activar/${post.email}/${post.codigo}" style="color: #4CAF50; text-decoration: none;">Haz clic aquí para activar de nuevo</a></p>
+            <p>¿Ya activaste tu cuenta? <a href=""+ config.urlreal +":4200/activar/${post.email}/${post.codigo}" style="color: #4CAF50; text-decoration: none;">Haz clic aquí para activar de nuevo</a></p>
         </div>
     </div>
 

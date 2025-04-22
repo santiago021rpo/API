@@ -3,7 +3,7 @@ var config = {
     sesiones:{}
 }
 
-config.urlreal = "http://localhost:3000"
+config.urlreal = "https://santiagodelgado.johncastiblanco.lat"
 
 config.puertoexpress = 3000
 config.bd = "EjercicioApi"
