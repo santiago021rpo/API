@@ -41,11 +41,7 @@ mongoose.connect("mongodb://" + config.bdUser + ":" + config.bdPass + '@' + conf
     console.log(error)
 })
 
-app.use('/', express.static(__dirname + '/dist/frontend/browser'));
 
-app.get('/*', function(req, res, next) {
-    res.sendFile(path.resolve(__dirname + "/dist/frontend/browser/index.html"));
-});
 
 
 app.use(cors({
@@ -78,7 +74,13 @@ console.log("hola mundo")
 
 app.use("/Avatar",express.static(__dirname + "/Avatar"))
 app.use("/Imagenes",express.static(__dirname + "/Imagenes"))
-app.use("/",express.static(__dirname + "/Pagina"))
+
+app.use('/', express.static(__dirname + '/dist/frontend/browser'));
+
+app.get('/*', function(req, res, next) {
+    res.sendFile(path.resolve(__dirname + "/dist/frontend/browser/index.html"));
+});
+
 
 
 app.listen(config.puertoexpress, function(){
